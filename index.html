@@ -14,7 +14,7 @@ body {
     background: linear-gradient(135deg, #ff9ecf, #ff4f81);
     overflow: hidden;
     color: white;
-    height: 100vh; /* make viewport-sized */
+    height: 100vh;
 }
 
 h1 {
@@ -33,7 +33,7 @@ img {
 
 .buttons {
     position: relative;
-    height: 80px;
+    height: 100px;
 }
 
 button {
@@ -49,17 +49,17 @@ button {
 #yesBtn {
     background-color: #ff007f;
     color: white;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 50%;
+    left: 42%;  /* slightly left of center */
+    top: 55%;
+    transform: translate(-50%, -50%);
 }
 
 #noBtn {
     background-color: white;
     color: #ff007f;
-    left: 55%;
+    left: 58%;  /* slightly right of center */
+    top: 55%;
     transform: translate(-50%, -50%);
-    top: 50%;
 }
 
 .heart {
@@ -130,7 +130,7 @@ window.addEventListener("DOMContentLoaded", () => {
             noBtn.innerText = cutePleases[noCount];
             noCount++;
         } else {
-            noBtn.innerText = "No option not available 😌";
+            noBtn.innerText = "No is not an option 😌";
         }
 
         const pos = positions[posIndex];
