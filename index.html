@@ -14,31 +14,31 @@ body {
     background: linear-gradient(135deg, #ff9ecf, #ff4f81);
     overflow: hidden;
     color: white;
+    height: 100vh; /* make viewport-sized */
 }
 
 h1 {
-    margin-top: 40px;
-    font-size: 2.5rem;
+    margin: 20px 0 10px 0;
+    font-size: 2rem;
 }
 
 img {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     object-fit: cover;
     border-radius: 20px;
-    margin: 20px 0;
+    margin: 10px 0 20px 0;
     box-shadow: 0 0 20px rgba(255,255,255,0.6);
 }
 
 .buttons {
     position: relative;
-    margin-top: 20px;
     height: 80px;
 }
 
 button {
-    padding: 15px 30px;
-    font-size: 18px;
+    padding: 12px 25px;
+    font-size: 16px;
     border: none;
     border-radius: 30px;
     cursor: pointer;
@@ -51,13 +51,15 @@ button {
     color: white;
     left: 50%;
     transform: translateX(-50%);
+    top: 50%;
 }
 
 #noBtn {
     background-color: white;
     color: #ff007f;
     left: 55%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
+    top: 50%;
 }
 
 .heart {
@@ -73,9 +75,9 @@ button {
 }
 
 @media (max-width: 480px) {
-    h1 { font-size: 1.8rem; margin-top: 20px; }
-    img { width: 180px; height: 180px; }
-    button { padding: 12px 20px; font-size: 16px; }
+    h1 { font-size: 1.6rem; margin: 15px 0 10px 0; }
+    img { width: 150px; height: 150px; }
+    button { padding: 10px 20px; font-size: 14px; }
 }
 </style>
 </head>
@@ -109,24 +111,21 @@ window.addEventListener("DOMContentLoaded", () => {
         "Pleeeeease 🥹💘"
     ];
 
-    // Music starts when clicking/tapping outside buttons
     const startMusic = (e) => {
         if (!e.target.closest("button")) music.play().catch(()=>{});
     };
     document.body.addEventListener("click", startMusic);
     document.body.addEventListener("touchstart", startMusic);
 
-    // 10 safe positions near the center (percentages)
+    // 10 safe positions near center-top area
     const positions = [
-        {x: 48, y: 52}, {x: 52, y: 48}, {x: 50, y: 54},
-        {x: 46, y: 50}, {x: 54, y: 50}, {x: 47, y: 47},
-        {x: 53, y: 53}, {x: 49, y: 55}, {x: 51, y: 46}, {x: 50, y: 50}
+        {x:48, y:42},{x:52, y:44},{x:50, y:46},{x:46, y:43},{x:54, y:45},
+        {x:47, y:41},{x:53, y:47},{x:49, y:43},{x:51, y:46},{x:50, y:44}
     ];
     let posIndex = 0;
 
     function moveNoButton(e) {
         if (e) e.stopPropagation();
-
         if (noCount < cutePleases.length) {
             noBtn.innerText = cutePleases[noCount];
             noCount++;
@@ -134,14 +133,12 @@ window.addEventListener("DOMContentLoaded", () => {
             noBtn.innerText = "No option not available 😌";
         }
 
-        // Set next safe position
         const pos = positions[posIndex];
         noBtn.style.left = pos.x + "vw";
         noBtn.style.top = pos.y + "vh";
         noBtn.style.transform = "translate(-50%, -50%) rotate(" + ((Math.random()-0.5)*20) + "deg)";
         posIndex = (posIndex + 1) % positions.length;
 
-        // Increase Yes button font slightly
         let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
         yesBtn.style.fontSize = (currentSize + 5) + "px";
     }
@@ -155,7 +152,7 @@ window.addEventListener("DOMContentLoaded", () => {
         document.body.style.transition = "background 5s ease";
         document.body.style.background = "linear-gradient(135deg, #ff0033, #990000)";
         document.body.innerHTML = `
-            <h1 style="margin-top:30vh; font-size:3rem;">
+            <h1 style="margin-top:35vh; font-size:3rem;">
             SHE SAID YESSSS 💖😭🎉<br><br>
             I LOVE YOU RANIA 💘❤️🔥
             </h1>
