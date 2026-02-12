@@ -42,17 +42,22 @@ button {
     border-radius: 30px;
     cursor: pointer;
     transition: 0.3s;
+    position: absolute;
 }
 
 #yesBtn {
     background-color: #ff007f;
     color: white;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #noBtn {
     background-color: white;
     color: #ff007f;
-    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
 }
 
 .heart {
@@ -65,6 +70,22 @@ button {
 @keyframes float {
     0% { transform: translateY(100vh); opacity: 1; }
     100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8rem;
+        margin-top: 20px;
+    }
+    img {
+        width: 180px;
+        height: 180px;
+    }
+    button {
+        padding: 12px 20px;
+        font-size: 16px;
+    }
 }
 </style>
 </head>
@@ -105,13 +126,16 @@ window.addEventListener("DOMContentLoaded", () => {
         "Pleeeeease 🥹💘"
     ];
 
-    // Start music on first click
-    document.body.addEventListener("click", () => {
-        music.play().catch(()=>{});
-    }, { once: true });
+    // Start music on first click or tap
+    const startMusic = () => music.play().catch(()=>{});
+    document.body.addEventListener("click", startMusic, { once: true });
+    document.body.addEventListener("touchstart", startMusic, { once: true });
 
-    // No button hover behavior
-    noBtn.addEventListener("mouseover", () => {
+    // No button hover/tap behavior (bounce inside viewport)
+    noBtn.addEventListener("mouseover", moveNoButton);
+    noBtn.addEventListener("touchstart", moveNoButton);
+
+    function moveNoButton() {
         if (noCount < cutePleases.length) {
             noBtn.innerText = cutePleases[noCount];
             noCount++;
@@ -119,19 +143,29 @@ window.addEventListener("DOMContentLoaded", () => {
             noBtn.innerText = "No option not available 😌";
         }
 
-        const x = Math.random() * (window.innerWidth - 150);
-        const y = Math.random() * (window.innerHeight - 150);
+        const vw = Math.min(window.innerWidth, 480); // limit width for small screens
+        const vh = window.innerHeight;
+        const btnWidth = noBtn.offsetWidth;
+        const btnHeight = noBtn.offsetHeight;
+        const padding = 10;
+
+        const x = padding + Math.random() * (vw - btnWidth - 2*padding);
+        const y = padding + Math.random() * (vh - btnHeight - 2*padding);
+
         noBtn.style.left = x + "px";
         noBtn.style.top = y + "px";
 
+        // playful rotation
+        const angle = (Math.random() - 0.5) * 40;
+        noBtn.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+
+        // increase yes button size slightly
         let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
         yesBtn.style.fontSize = (currentSize + 5) + "px";
-    });
+    }
 
     // Yes button click
-    yesBtn.addEventListener("click", () => {
-        celebrate();
-    });
+    yesBtn.addEventListener("click", () => celebrate());
 
     function celebrate() {
         document.body.style.transition = "background 5s ease";
@@ -158,9 +192,7 @@ window.addEventListener("DOMContentLoaded", () => {
         el.style.animation = "floatUp 4s linear forwards";
         document.body.appendChild(el);
 
-        setTimeout(() => {
-            el.remove();
-        }, 4000);
+        setTimeout(() => { el.remove(); }, 4000);
     }
 
     const style = document.createElement("style");
@@ -179,9 +211,7 @@ window.addEventListener("DOMContentLoaded", () => {
         heart.style.fontSize = Math.random() * 20 + 15 + "px";
         document.body.appendChild(heart);
 
-        setTimeout(() => {
-            heart.remove();
-        }, 5000);
+        setTimeout(() => { heart.remove(); }, 5000);
     }
 
     setInterval(createHeart, 300);
@@ -190,4 +220,3 @@ window.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
-
