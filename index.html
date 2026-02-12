@@ -49,7 +49,7 @@ button {
 #yesBtn {
     background-color: #ff007f;
     color: white;
-    left: 45%;
+    left: 50%;
     transform: translateX(-50%);
 }
 
@@ -101,7 +101,6 @@ window.addEventListener("DOMContentLoaded", () => {
     const music = document.getElementById("bgMusic");
 
     let noCount = 0;
-
     const cutePleases = [
         "Please? 🥺", "Pretty please? 💕", "Just say yes 😭",
         "Don’t break my heart 💔", "I’ll buy you snacks 🍫",
@@ -110,25 +109,24 @@ window.addEventListener("DOMContentLoaded", () => {
         "Pleeeeease 🥹💘"
     ];
 
-    // Start music when tapping outside buttons
+    // Music starts when clicking/tapping outside buttons
     const startMusic = (e) => {
         if (!e.target.closest("button")) music.play().catch(()=>{});
     };
     document.body.addEventListener("click", startMusic);
     document.body.addEventListener("touchstart", startMusic);
 
-    // Predefined positions for No button (percentages of viewport)
+    // 10 safe positions near the center (percentages)
     const positions = [
-        {x: 55, y: 45}, {x: 65, y: 40}, {x: 60, y: 55},
-        {x: 50, y: 60}, {x: 70, y: 50}, {x: 45, y: 50},
-        {x: 60, y: 65}, {x: 55, y: 35}, {x: 65, y: 60}, {x: 50, y: 40}
+        {x: 48, y: 52}, {x: 52, y: 48}, {x: 50, y: 54},
+        {x: 46, y: 50}, {x: 54, y: 50}, {x: 47, y: 47},
+        {x: 53, y: 53}, {x: 49, y: 55}, {x: 51, y: 46}, {x: 50, y: 50}
     ];
     let posIndex = 0;
 
     function moveNoButton(e) {
-        if (e) e.stopPropagation(); // prevent music from starting
+        if (e) e.stopPropagation();
 
-        // Update button text
         if (noCount < cutePleases.length) {
             noBtn.innerText = cutePleases[noCount];
             noCount++;
@@ -136,14 +134,14 @@ window.addEventListener("DOMContentLoaded", () => {
             noBtn.innerText = "No option not available 😌";
         }
 
-        // Move No button to next predefined position
+        // Set next safe position
         const pos = positions[posIndex];
         noBtn.style.left = pos.x + "vw";
         noBtn.style.top = pos.y + "vh";
-        noBtn.style.transform = "translate(-50%, -50%) rotate(" + ((Math.random()-0.5)*40) + "deg)";
+        noBtn.style.transform = "translate(-50%, -50%) rotate(" + ((Math.random()-0.5)*20) + "deg)";
         posIndex = (posIndex + 1) % positions.length;
 
-        // Increase Yes button font size slightly
+        // Increase Yes button font slightly
         let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
         yesBtn.style.fontSize = (currentSize + 5) + "px";
     }
@@ -151,7 +149,6 @@ window.addEventListener("DOMContentLoaded", () => {
     noBtn.addEventListener("click", moveNoButton);
     noBtn.addEventListener("touchstart", moveNoButton);
 
-    // Yes button click
     yesBtn.addEventListener("click", () => celebrate());
 
     function celebrate() {
