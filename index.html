@@ -85,106 +85,109 @@ button {
 </audio>
 
 <script>
-const noBtn = document.getElementById("noBtn");
-const yesBtn = document.getElementById("yesBtn");
-const music = document.getElementById("bgMusic");
+window.addEventListener("DOMContentLoaded", () => {
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const music = document.getElementById("bgMusic");
 
-let noCount = 0;
+    let noCount = 0;
 
-const cutePleases = [
-    "Please? 🥺",
-    "Pretty please? 💕",
-    "Just say yes 😭",
-    "Don’t break my heart 💔",
-    "I’ll buy you snacks 🍫",
-    "I’ll send memes daily 😂",
-    "I’ll give unlimited hugs 🤗",
-    "You know you want to 😌",
-    "Come on Raniaaa 💖",
-    "Pleeeeease 🥹💘"
-];
+    const cutePleases = [
+        "Please? 🥺",
+        "Pretty please? 💕",
+        "Just say yes 😭",
+        "Don’t break my heart 💔",
+        "I’ll buy you snacks 🍫",
+        "I’ll send memes daily 😂",
+        "I’ll give unlimited hugs 🤗",
+        "You know you want to 😌",
+        "Come on Raniaaa 💖",
+        "Pleeeeease 🥹💘"
+    ];
 
-document.body.addEventListener("click", () => {
-    music.play();
-}, { once: true });
+    // Start music on first click
+    document.body.addEventListener("click", () => {
+        music.play().catch(()=>{});
+    }, { once: true });
 
-noBtn.addEventListener("mouseover", () => {
-    if (noCount < cutePleases.length) {
-        noBtn.innerText = cutePleases[noCount];
-        noCount++;
-    } else {
-        noBtn.innerText = "No option not available 😌";
+    // No button hover behavior
+    noBtn.addEventListener("mouseover", () => {
+        if (noCount < cutePleases.length) {
+            noBtn.innerText = cutePleases[noCount];
+            noCount++;
+        } else {
+            noBtn.innerText = "No option not available 😌";
+        }
+
+        const x = Math.random() * (window.innerWidth - 150);
+        const y = Math.random() * (window.innerHeight - 150);
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+
+        let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+        yesBtn.style.fontSize = (currentSize + 5) + "px";
+    });
+
+    // Yes button click
+    yesBtn.addEventListener("click", () => {
+        celebrate();
+    });
+
+    function celebrate() {
+        document.body.style.transition = "background 5s ease";
+        document.body.style.background = "linear-gradient(135deg, #ff0033, #990000)";
+
+        document.body.innerHTML = `
+            <h1 style="margin-top:30vh; font-size:3rem;">
+            SHE SAID YESSSS 💖😭🎉<br><br>
+            I LOVE YOU RANIA 💘❤️🔥
+            </h1>
+        `;
+
+        setInterval(createEmoji, 150);
     }
 
-    const x = Math.random() * (window.innerWidth - 150);
-    const y = Math.random() * (window.innerHeight - 150);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    function createEmoji() {
+        const emojis = ["🎉","💖","❤️","💘","🥰","✨","💕","🎊"];
+        const el = document.createElement("div");
+        el.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.position = "absolute";
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.top = "100vh";
+        el.style.fontSize = (Math.random() * 20 + 20) + "px";
+        el.style.animation = "floatUp 4s linear forwards";
+        document.body.appendChild(el);
 
-    let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
-    yesBtn.style.fontSize = (currentSize + 5) + "px";
+        setTimeout(() => {
+            el.remove();
+        }, 4000);
+    }
+
+    const style = document.createElement("style");
+    style.innerHTML = `
+    @keyframes floatUp {
+        0% { transform: translateY(0); opacity: 1; }
+        100% { transform: translateY(-110vh); opacity: 0; }
+    }`;
+    document.head.appendChild(style);
+
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = Math.random() * 20 + 15 + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 5000);
+    }
+
+    setInterval(createHeart, 300);
 });
-
-yesBtn.addEventListener("click", () => {
-    celebrate();
-});
-
-function celebrate() {
-
-    document.body.style.transition = "background 5s ease";
-    document.body.style.background = "linear-gradient(135deg, #ff0033, #990000)";
-
-    document.body.innerHTML = `
-        <h1 style="margin-top:30vh; font-size:3rem;">
-        SHE SAID YESSSS 💖😭🎉<br><br>
-        I LOVE YOU RANIA 💘❤️🔥
-        </h1>
-    `;
-
-    setInterval(() => {
-        createEmoji();
-    }, 150);
-}
-
-function createEmoji() {
-    const emojis = ["🎉","💖","❤️","💘","🥰","✨","💕","🎊"];
-    const el = document.createElement("div");
-    el.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
-    el.style.position = "absolute";
-    el.style.left = Math.random() * 100 + "vw";
-    el.style.top = "100vh";
-    el.style.fontSize = (Math.random() * 20 + 20) + "px";
-    el.style.animation = "floatUp 4s linear forwards";
-    document.body.appendChild(el);
-
-    setTimeout(() => {
-        el.remove();
-    }, 4000);
-}
-
-const style = document.createElement("style");
-style.innerHTML = `
-@keyframes floatUp {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(-110vh); opacity: 0; }
-}`;
-document.head.appendChild(style);
-
-function createHeart() {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "❤️";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = Math.random() * 20 + 15 + "px";
-    document.body.appendChild(heart);
-
-    setTimeout(() => {
-        heart.remove();
-    }, 5000);
-}
-
-setInterval(createHeart, 300);
 </script>
 
 </body>
 </html>
+
