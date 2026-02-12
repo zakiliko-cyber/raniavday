@@ -33,6 +33,7 @@ img {
 .buttons {
     position: relative;
     margin-top: 20px;
+    height: 80px; /* space for buttons */
 }
 
 button {
@@ -48,16 +49,15 @@ button {
 #yesBtn {
     background-color: #ff007f;
     color: white;
-    left: 50%;
+    left: 45%;
     transform: translateX(-50%);
 }
 
 #noBtn {
     background-color: white;
     color: #ff007f;
-    top: 50%;
-    left: 60%;
-    transform: translate(-50%, -50%);
+    left: 55%;
+    transform: translateX(-50%);
 }
 
 .heart {
@@ -147,12 +147,13 @@ window.addEventListener("DOMContentLoaded", () => {
             noBtn.innerText = "No option not available 😌";
         }
 
-        const vw = Math.min(window.innerWidth, 480); // limit width for small screens
+        const vw = window.innerWidth;
         const vh = window.innerHeight;
         const btnWidth = noBtn.offsetWidth;
         const btnHeight = noBtn.offsetHeight;
         const padding = 10;
 
+        // Fully constrained random position inside viewport
         const x = padding + Math.random() * (vw - btnWidth - 2*padding);
         const y = padding + Math.random() * (vh - btnHeight - 2*padding);
 
