@@ -126,16 +126,20 @@ window.addEventListener("DOMContentLoaded", () => {
         "Pleeeeease 🥹💘"
     ];
 
-    // Start music on first click or tap
-    const startMusic = () => music.play().catch(()=>{});
-    document.body.addEventListener("click", startMusic, { once: true });
-    document.body.addEventListener("touchstart", startMusic, { once: true });
+    // Start music only when tapping outside buttons
+    const startMusic = (e) => {
+        if (!e.target.closest("button")) {
+            music.play().catch(()=>{});
+        }
+    };
 
-    // No button hover/tap behavior (bounce inside viewport)
-    noBtn.addEventListener("mouseover", moveNoButton);
-    noBtn.addEventListener("touchstart", moveNoButton);
+    document.body.addEventListener("click", startMusic);
+    document.body.addEventListener("touchstart", startMusic);
 
-    function moveNoButton() {
+    // No button hover/tap behavior
+    function moveNoButton(e) {
+        if (e) e.stopPropagation(); // prevent triggering body tap
+
         if (noCount < cutePleases.length) {
             noBtn.innerText = cutePleases[noCount];
             noCount++;
@@ -155,14 +159,15 @@ window.addEventListener("DOMContentLoaded", () => {
         noBtn.style.left = x + "px";
         noBtn.style.top = y + "px";
 
-        // playful rotation
         const angle = (Math.random() - 0.5) * 40;
         noBtn.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
 
-        // increase yes button size slightly
         let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
         yesBtn.style.fontSize = (currentSize + 5) + "px";
     }
+
+    noBtn.addEventListener("mouseover", moveNoButton);
+    noBtn.addEventListener("touchstart", moveNoButton);
 
     // Yes button click
     yesBtn.addEventListener("click", () => celebrate());
