@@ -136,7 +136,7 @@ window.addEventListener("DOMContentLoaded", () => {
     document.body.addEventListener("click", startMusic);
     document.body.addEventListener("touchstart", startMusic);
 
-    // No button hover/tap behavior
+    // No button click/tap behavior
     function moveNoButton(e) {
         if (e) e.stopPropagation(); // prevent triggering body tap
 
@@ -153,7 +153,7 @@ window.addEventListener("DOMContentLoaded", () => {
         const btnHeight = noBtn.offsetHeight;
         const padding = 10;
 
-        // Fully constrained random position inside viewport
+        // Random position fully inside viewport
         const x = padding + Math.random() * (vw - btnWidth - 2*padding);
         const y = padding + Math.random() * (vh - btnHeight - 2*padding);
 
@@ -163,11 +163,13 @@ window.addEventListener("DOMContentLoaded", () => {
         const angle = (Math.random() - 0.5) * 40;
         noBtn.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
 
+        // increase yes button size
         let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
         yesBtn.style.fontSize = (currentSize + 5) + "px";
     }
 
-    noBtn.addEventListener("mouseover", moveNoButton);
+    // Use click and touch for No button
+    noBtn.addEventListener("click", moveNoButton);
     noBtn.addEventListener("touchstart", moveNoButton);
 
     // Yes button click
