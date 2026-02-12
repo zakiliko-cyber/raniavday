@@ -33,7 +33,7 @@ img {
 .buttons {
     position: relative;
     margin-top: 20px;
-    height: 80px; /* space for buttons */
+    height: 80px;
 }
 
 button {
@@ -72,20 +72,10 @@ button {
     100% { transform: translateY(-10vh); opacity: 0; }
 }
 
-/* Mobile responsive */
 @media (max-width: 480px) {
-    h1 {
-        font-size: 1.8rem;
-        margin-top: 20px;
-    }
-    img {
-        width: 180px;
-        height: 180px;
-    }
-    button {
-        padding: 12px 20px;
-        font-size: 16px;
-    }
+    h1 { font-size: 1.8rem; margin-top: 20px; }
+    img { width: 180px; height: 180px; }
+    button { padding: 12px 20px; font-size: 16px; }
 }
 </style>
 </head>
@@ -93,7 +83,6 @@ button {
 <body>
 
 <h1>Rania ❤️<br>Will You Be My Valentine?</h1>
-
 <img src="rania.png" alt="Rania">
 
 <div class="buttons">
@@ -114,32 +103,32 @@ window.addEventListener("DOMContentLoaded", () => {
     let noCount = 0;
 
     const cutePleases = [
-        "Please? 🥺",
-        "Pretty please? 💕",
-        "Just say yes 😭",
-        "Don’t break my heart 💔",
-        "I’ll buy you snacks 🍫",
-        "I’ll send memes daily 😂",
-        "I’ll give unlimited hugs 🤗",
-        "You know you want to 😌",
-        "Come on Raniaaa 💖",
+        "Please? 🥺", "Pretty please? 💕", "Just say yes 😭",
+        "Don’t break my heart 💔", "I’ll buy you snacks 🍫",
+        "I’ll send memes daily 😂", "I’ll give unlimited hugs 🤗",
+        "You know you want to 😌", "Come on Raniaaa 💖",
         "Pleeeeease 🥹💘"
     ];
 
-    // Start music only when tapping outside buttons
+    // Start music when tapping outside buttons
     const startMusic = (e) => {
-        if (!e.target.closest("button")) {
-            music.play().catch(()=>{});
-        }
+        if (!e.target.closest("button")) music.play().catch(()=>{});
     };
-
     document.body.addEventListener("click", startMusic);
     document.body.addEventListener("touchstart", startMusic);
 
-    // No button click/tap behavior
-    function moveNoButton(e) {
-        if (e) e.stopPropagation(); // prevent triggering body tap
+    // Predefined positions for No button (percentages of viewport)
+    const positions = [
+        {x: 55, y: 45}, {x: 65, y: 40}, {x: 60, y: 55},
+        {x: 50, y: 60}, {x: 70, y: 50}, {x: 45, y: 50},
+        {x: 60, y: 65}, {x: 55, y: 35}, {x: 65, y: 60}, {x: 50, y: 40}
+    ];
+    let posIndex = 0;
 
+    function moveNoButton(e) {
+        if (e) e.stopPropagation(); // prevent music from starting
+
+        // Update button text
         if (noCount < cutePleases.length) {
             noBtn.innerText = cutePleases[noCount];
             noCount++;
@@ -147,28 +136,18 @@ window.addEventListener("DOMContentLoaded", () => {
             noBtn.innerText = "No option not available 😌";
         }
 
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-        const btnWidth = noBtn.offsetWidth;
-        const btnHeight = noBtn.offsetHeight;
-        const padding = 10;
+        // Move No button to next predefined position
+        const pos = positions[posIndex];
+        noBtn.style.left = pos.x + "vw";
+        noBtn.style.top = pos.y + "vh";
+        noBtn.style.transform = "translate(-50%, -50%) rotate(" + ((Math.random()-0.5)*40) + "deg)";
+        posIndex = (posIndex + 1) % positions.length;
 
-        // Random position fully inside viewport
-        const x = padding + Math.random() * (vw - btnWidth - 2*padding);
-        const y = padding + Math.random() * (vh - btnHeight - 2*padding);
-
-        noBtn.style.left = x + "px";
-        noBtn.style.top = y + "px";
-
-        const angle = (Math.random() - 0.5) * 40;
-        noBtn.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-
-        // increase yes button size
+        // Increase Yes button font size slightly
         let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
         yesBtn.style.fontSize = (currentSize + 5) + "px";
     }
 
-    // Use click and touch for No button
     noBtn.addEventListener("click", moveNoButton);
     noBtn.addEventListener("touchstart", moveNoButton);
 
@@ -178,14 +157,12 @@ window.addEventListener("DOMContentLoaded", () => {
     function celebrate() {
         document.body.style.transition = "background 5s ease";
         document.body.style.background = "linear-gradient(135deg, #ff0033, #990000)";
-
         document.body.innerHTML = `
             <h1 style="margin-top:30vh; font-size:3rem;">
             SHE SAID YESSSS 💖😭🎉<br><br>
             I LOVE YOU RANIA 💘❤️🔥
             </h1>
         `;
-
         setInterval(createEmoji, 150);
     }
 
@@ -199,8 +176,7 @@ window.addEventListener("DOMContentLoaded", () => {
         el.style.fontSize = (Math.random() * 20 + 20) + "px";
         el.style.animation = "floatUp 4s linear forwards";
         document.body.appendChild(el);
-
-        setTimeout(() => { el.remove(); }, 4000);
+        setTimeout(() => el.remove(), 4000);
     }
 
     const style = document.createElement("style");
@@ -218,8 +194,7 @@ window.addEventListener("DOMContentLoaded", () => {
         heart.style.left = Math.random() * 100 + "vw";
         heart.style.fontSize = Math.random() * 20 + 15 + "px";
         document.body.appendChild(heart);
-
-        setTimeout(() => { heart.remove(); }, 5000);
+        setTimeout(() => heart.remove(), 5000);
     }
 
     setInterval(createHeart, 300);
